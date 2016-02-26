@@ -1,0 +1,79 @@
+<div ng-controller="userController" ng-show="users">
+<div class="pull-right" ng-controller="loginController">
+            <form>
+      	 	<input type='submit' value='Logout' ng-click='logout()' class="btn btn-danger">
+      	</form>
+ </div>
+<h2>Hello {{users.name}}</h2>
+<div ng-controller="messageController">
+<h3>Your Friends</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="contacts in userContacts">
+			    <td>{{contacts.name}}</td>
+			    <td>{{contacts.email}}</td>
+			    <td>
+			    	<form>
+			    		<input type="submit" value="Message" class="btn btn-success" ng-click="redirectMessage(users._id,contacts._id,contacts.name)">
+			    	</form>
+			    	<!-- <a href="#/messages" class="btn btn-success">Message</a> -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+	<div ng-show="recievedRequests" ng-controller="requestController">
+		<h4>Requests Recieved</h4>	
+		<table class="table-condensed">
+			<tbody>
+				<tr ng-repeat="requests in recievedRequests">
+				    <td>{{requests.req_from_name}}</td>
+				    <td>
+				    	<form>
+					        	<input type="submit" value="Accept" ng-click='acceptRequest(users._id,users.name,requests._id,requests.req_from_id,requests.req_from_name)' class="btn btn-success btn-xs">
+					    </form>
+					</td>
+					<td>
+				    	<form>
+					        	<input type="submit" value="Reject" ng-click='sendRequest(findusers._id,users._id)' class="btn btn-danger btn-xs">
+					    </form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<h4>Search Users</h4>
+		<form role="form">
+			<label for="search">Enter Email:</label>
+			<div class="form-group">
+				<div class="col-xs-3	">
+					<input type="text" name="search" ng-model="find_user.find" class="form-control" id="search">
+				</div>
+				<input type="submit" value="Search" ng-click='findUser()' class="btn btn-info">
+			</div>
+		</form><br>
+	<div ng-show="findusers" ng-controller="requestController">
+			<table class="table-condensed">
+			    <tbody>
+			      <tr>
+			        <td><h4>{{findusers.name}}</h4></td>
+			        <td>
+				        <form>
+				        	<input type="submit" value="Add Friend" ng-click='sendRequest(findusers._id,users._id,findusers.name,users.name)' class="btn btn-success btn-xs">
+				        </form>
+				    </td>
+			      </tr>
+			    </tbody>
+			</table>
+	</div>
+</div>
+<div ng-show="!users">
+      <a href="#" class="btn btn-info">Login To Continue</a>
+</div>

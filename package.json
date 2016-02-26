@@ -1,0 +1,10 @@
+{
+  "name": "Translate_Chat",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.10.1",
+    "express": "^4.10.0",
+    "mongoose": "^4.0.1",
+    "mongoose-deep-populate": "^2.0.3"
+  }
+}

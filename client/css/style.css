@@ -1,0 +1,17 @@
+body{
+        padding-top:60px;
+    }
+
+.created_at{
+	margin-bottom: 100px;
+}
+
+.msginfo{
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#delbutton{
+	float: right;
+	margin-right: 15px;
+}

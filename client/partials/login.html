@@ -1,0 +1,44 @@
+<div ng-controller='userController'>
+        <h3>Register</h3>
+            <form name="userRegister" novalidate role="form">
+                <div class="form-group">
+                    <label for="name">Name:</label><br>
+                    <input type='text' name="name" ng-model='new_user.name' ng-minlength="3" ng-maxlength="10" ng-pattern="string" ng-required="string" class="form-control"><br>
+                        <div ng-messages="userRegister.name.$error">
+                            <p ng-message="minlength">Your name is too short.</p>
+                            <p ng-message="maxlength">Your name is too long.</p>
+                            <p ng-message="required">Your name is required.</p>
+                            <p ng-message="pattern">Only Strings</p>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label><br>
+                    <input type='email' name="email" ng-model='new_user.email' required class="form-control"><br>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label><br>
+                    <input type='number' name="phone" ng-model='new_user.phone' required class="form-control" ng-minlength="10" ng-maxlength="10"><br>
+                    <div ng-messages="userRegister.phone.$error">
+                        <p ng-message="minlength">Number Invalid</p>
+                        <p ng-message="maxlength">Number Invalid</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label><br>
+                    <input type='password' name="password" ng-model='new_user.password' required class="form-control"><br>
+                </div>
+                <input type='submit' value='Create' ng-click='addUser()' class="btn btn-info">
+            </form>
+</div>
+<div ng-controller='loginController'>
+    <h3>Login</h3>
+        <form role="form">
+            <label for="email">Email:</label><br>
+            <input type='email' name="email" ng-model='user.email' class="form-control"><br>
+            <label for="password">Password:</label><br>
+            <input type='password' name="password" ng-model='user.password' class="form-control"><br>
+            <input type='submit' value='Login' ng-click='getUser()' class="btn btn-info">
+        </form>
+</div>
+
+    
