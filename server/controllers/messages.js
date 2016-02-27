@@ -32,8 +32,22 @@ module.exports = (function() {
  				})
  			},
  			delete_message: function(req, res){
- 				console.log(req,"Inside Controller")
  				var msgId;
+ 				console.log(req.body.userId,req.body.contactId,req.body.tMessage,req.body.oMessage)
+ 				Message.findOne({sentById: req.body.userId, recvdById: req.body.contactId, tMessage: req.body.tMessage, oMessage: req.body.oMessage}).exec(function (err, message){
+ 					if(err){
+ 						console.log("Message not found");
+ 					}else{
+ 						msgId = message._id;
+ 					}
+ 				})
+ 				Message.remove({sentById: req.body.userId, recvdById: req.body.contactId, tMessage: req.body.tMessage, oMessage: req.body.oMessage}, function(err, message){
+ 					if(err){
+ 						console.log("Error removing contact message");
+ 					}else{
+ 					console.log("Contact Message Removed")
+ 					}
+ 				})
  				Message.remove({_id: req.body.messageId}, function(err, message){
  					if(err){
  						console.log("Error removing user message");
@@ -41,39 +55,26 @@ module.exports = (function() {
  					console.log("User Message Removed")
  					}
  				})
- 				Chat.findOne({_User: req.body.userId, contactId: req.body.contactId}).deepPopulate('messages').exec(function (err, chat){
- 					if(err){
- 						console.log("Couldnt find User Chat")
- 					}else{
- 						for(var i=0;i<chat.messages.length;i++){
- 							if(chat.messages[i]._id === req.body.messageId){
- 								chat.message.splice(i,1);
- 							}
- 						}
- 					}
- 				})
- 				Message.findOne({sentById: req.body.userId, recvdById: req.body.contactId, created_at: req.body.created_at}).exec(function (err, message){
- 					if(err){
- 						console.log("Message not found");
- 					}else{
- 						msgId = message._id;
- 					}
- 				})
- 				Message.remove({sentById: req.body.userId, recvdById: req.body.contactId, created_at: req.body.created_at}, function(err, message){
- 					if(err){
- 						console.log("Error removing contact message");
- 					}else{
- 					console.log("Contact Message Removed")
- 					}
- 				})
  				Chat.findOne({_User: req.body.contactId, contactId: req.body.userId}).deepPopulate('messages').exec(function (err, chat1){
  					if(err){
  						console.log("Couldnt find contact chat");
  					}else{
- 						console.log(msgId, "Testing msgId");
+ 						console.log(chat1.messages);
  						for(var i=0;i<chat1.messages.length;i++){
  							if(chat1.messages[i]._id === msgId){
  								chat1.message.splice(i,1);
+ 							}
+ 						}
+ 					}
+ 				})
+ 				Chat.findOne({_User: req.body.userId, contactId: req.body.contactId}).deepPopulate('messages').exec(function (err, chat){
+ 					if(err){
+ 						console.log("Couldnt find User Chat")
+ 					}else{
+ 						console.log(chat.messages)
+ 						for(var i=0;i<chat.messages.length;i++){
+ 							if(chat.messages[i]._id === req.body.messageId){
+ 								chat.message.splice(i,1);
  							}
  						}
  					}

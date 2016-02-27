@@ -13,7 +13,7 @@
 	  	<h5 class="msginfo">Non-Translated: {{message.oMessage}}</h5>
 	  	<h5 class="msginfo">Time Posted: <span ng-bind="message.created_at | date: 'mediumTime'"></span></h5>
 	  <div ng-show="message.sentById === users._id">
-	  	<a ng-click="deleteMessage(message._id, users._id,message.recvdById, message.recvdByName, message.created_at)" class="btn btn-danger btn-xs" id="delbutton">Delete</a>
+	  	<a ng-click="deleteMessage(message._id,users._id,message.recvdById,message.recvdByName,message.tMessage,message.oMessage)" class="btn btn-danger btn-xs" id="delbutton">Delete</a>
 	  </div>
 	  </div>
 	</div>

@@ -59,15 +59,15 @@ myapp.controller('messageController', function($scope, messageFactory, $location
                 $location.path('/messages')
             })
         }
-        $scope.deleteMessage = function(msgId, userId, contactId, contactName, created_at){
+        $scope.deleteMessage = function(msgId, userId, contactId, contactName,tMessage,oMessage){
             chat_repack = {
                 messageId: msgId,
                 userId: userId,
                 contactId: contactId,
                 contactName: contactName,
-                created_at: created_at
+                tMessage: tMessage,
+                oMessage: oMessage
             }
-            console.log(chat_repack);
             messageFactory.deleteMessage(chat_repack, function (data){
             messageFactory.loadChat(chat_repack, function (data){
                 $rootScope.chat = data;
