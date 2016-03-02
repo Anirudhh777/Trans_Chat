@@ -10,12 +10,12 @@ module.exports = (function() {
 		      	console.log(err,'something went wrong');
 		    } else { 
 			    console.log('successfully added a user!');
-			    res.redirect('/');
+			    res.json(user);
 	    }
 	  })
 	 },
 	 	login: function(req, res) {
-		     User.findOne({email: req.body.email}).deepPopulate('contacts').exec(function (err, user) {
+		     User.findOne({email: req.body.email}).deepPopulate(['contacts', 'requests']).exec(function (err, user) {
 		       if(user === null) {
 		          var error = "User not found"
 		          console.log(error);

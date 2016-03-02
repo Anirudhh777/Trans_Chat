@@ -1,10 +1,11 @@
-<div ng-controller="userController" ng-show="users">
+<div ng-controller="userController">
 <div class="pull-right" ng-controller="loginController">
             <form>
       	 	<input type='submit' value='Logout' ng-click='logout()' class="btn btn-danger">
       	</form>
  </div>
-<h2>Hello {{users.name}}</h2>
+ <h5 ng-show="welcome">{{welcome}}</h5>
+<h2>Hello {{users.name}}{{userCookie.name}}</h2>
 <div ng-controller="messageController">
 <h3>Your Friends</h3>
 	<table class="table">
@@ -40,11 +41,11 @@
 					        	<input type="submit" value="Accept" ng-click='acceptRequest(users._id,users.name,requests._id,requests.req_from_id,requests.req_from_name)' class="btn btn-success btn-xs">
 					    </form>
 					</td>
-					<td>
+					<!-- <td>
 				    	<form>
 					        	<input type="submit" value="Reject" ng-click='sendRequest(findusers._id,users._id)' class="btn btn-danger btn-xs">
 					    </form>
-					</td>
+					</td> -->
 				</tr>
 			</tbody>
 		</table>
@@ -56,9 +57,10 @@
 				<div class="col-xs-3	">
 					<input type="text" name="search" ng-model="find_user.find" class="form-control" id="search">
 				</div>
-				<input type="submit" value="Search" ng-click='findUser()' class="btn btn-info">
+				<input type="submit" value="Search" ng-click='findUser(users)' class="btn btn-info">
 			</div>
 		</form><br>
+		<h4 ng-show="existingContact">{{existingContact}}</h4>
 	<div ng-show="findusers" ng-controller="requestController">
 			<table class="table-condensed">
 			    <tbody>
@@ -66,14 +68,15 @@
 			        <td><h4>{{findusers.name}}</h4></td>
 			        <td>
 				        <form>
-				        	<input type="submit" value="Add Friend" ng-click='sendRequest(findusers._id,users._id,findusers.name,users.name)' class="btn btn-success btn-xs">
+				        	<input type="submit" value="Add Friend" ng-click='sendRequest(findusers._id,users._id,findusers.name,users.name)' class="btn btn-success btn-xs" ng-show="findusers">
 				        </form>
 				    </td>
 			      </tr>
 			    </tbody>
 			</table>
 	</div>
+	<h4 ng-show="reqMessage">{{reqMessage}}</h4>
 </div>
-<div ng-show="!users">
+<!-- <div ng-show="!users">
       <a href="#" class="btn btn-info">Login To Continue</a>
-</div>
+</div> -->

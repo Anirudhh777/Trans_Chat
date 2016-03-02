@@ -47,8 +47,12 @@ myapp.controller('messageController', function($scope, messageFactory, $location
             })
             })
             })
+            $scope.message = {};
         }
         $scope.redirectMessage = function(userId, contactId, contactName){
+            delete $rootScope.reqMessage;
+            delete $rootScope.findusers
+            delete $rootScope.existingContact
             chat_repack = {
                 userId: userId,
                 contactId: contactId,

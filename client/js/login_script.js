@@ -7,17 +7,22 @@ myapp.factory('loginFactory', function($http) {
           }
         return factory;
     });
-myapp.controller('loginController', function($scope, $rootScope, loginFactory, requestFactory, userFactory, contactFactory, $location, $cookieStore) {
+myapp.controller('loginController', function($scope, $rootScope, loginFactory, requestFactory, userFactory, contactFactory, $location, $cookies) {
+
         $scope.getUser = function(){
+            delete $rootScope.reqMessage;
             var user_repack = {
                 email: $scope.user.email,
                 password: $scope.user.password
             }
             loginFactory.getUser(user_repack, function (data){
                 $rootScope.users = data
-                // $cookieStore.put('users', data);
-                // var users = $cookieStore.get('users');
-                // console.log(users);
+                $scope.userData = $cookies.userData || {};
+                $cookies.userData = data
+                console.log($cookies.userData);
+                $scope.userCookie = $cookies.userData;
+                // var userCookie = $cookies.get('userCookie')
+                // $cookies.put('userCookie', data);
             requestFactory.getRecievedRequests(data, function (data){
                     if(data.length > 0){
                     $rootScope.recievedRequests = data;

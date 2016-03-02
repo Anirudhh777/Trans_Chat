@@ -15,6 +15,9 @@ myapp.factory('requestFactory', function($http, $location) {
     });
 myapp.controller('requestController', function($scope, requestFactory, contactFactory, $location, $rootScope) {
     $scope.sendRequest = function(info, data, infoname, dataname) {
+        delete $rootScope.reqMessage;
+        delete $rootScope.findusers
+        delete $rootScope.existingContact
         var request_repack = {
             send_id: data,
             send_name: dataname,
@@ -26,8 +29,14 @@ myapp.controller('requestController', function($scope, requestFactory, contactFa
         requestFactory.sendRequest(request_repack, function (data){
             $rootScope.findrequests = data
         })
+        delete $rootScope.findusers;
+        $rootScope.reqMessage = "Request Sent"
+        $location.path('/dashboard') 
     }
     $scope.acceptRequest = function(userId, userName, requestId, reqFromId, contactName){
+        delete $rootScope.reqMessage;
+        delete $rootScope.findusers
+        delete $rootScope.existingContact
         var contact_repack = {
             userId: userId,
             userName: userName,

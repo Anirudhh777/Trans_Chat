@@ -34,10 +34,11 @@ module.exports = (function() {
  			delete_message: function(req, res){
  				var msgId;
  				console.log(req.body.userId,req.body.contactId,req.body.tMessage,req.body.oMessage)
- 				Message.findOne({sentById: req.body.userId, recvdById: req.body.contactId, tMessage: req.body.tMessage, oMessage: req.body.oMessage}).exec(function (err, message){
+ 				Message.find({sentById: req.body.userId, recvdById: req.body.contactId, tMessage: req.body.tMessage, oMessage: req.body.oMessage}).exec(function (err, message){
  					if(err){
  						console.log("Message not found");
- 					}else{
+ 					}if(message){
+ 						console.log(message);
  						msgId = message._id;
  					}
  				})
@@ -55,30 +56,44 @@ module.exports = (function() {
  					console.log("User Message Removed")
  					}
  				})
- 				Chat.findOne({_User: req.body.contactId, contactId: req.body.userId}).deepPopulate('messages').exec(function (err, chat1){
- 					if(err){
- 						console.log("Couldnt find contact chat");
- 					}else{
- 						console.log(chat1.messages);
- 						for(var i=0;i<chat1.messages.length;i++){
- 							if(chat1.messages[i]._id === msgId){
- 								chat1.message.splice(i,1);
- 							}
- 						}
- 					}
- 				})
- 				Chat.findOne({_User: req.body.userId, contactId: req.body.contactId}).deepPopulate('messages').exec(function (err, chat){
- 					if(err){
- 						console.log("Couldnt find User Chat")
- 					}else{
- 						console.log(chat.messages)
- 						for(var i=0;i<chat.messages.length;i++){
- 							if(chat.messages[i]._id === req.body.messageId){
- 								chat.message.splice(i,1);
- 							}
- 						}
- 					}
- 				})
+ 				// Chat.findOne({_User: req.body.contactId, contactId: req.body.userId}).deepPopulate('messages').exec(function (err, chat1){
+ 				// 	if(err){
+ 				// 		console.log("Couldnt find contact chat");
+ 				// 	}else{
+ 				// 		console.log(chat1.messages);
+ 				// 		for(var i=0;i<chat1.messages.length;i++){
+ 				// 			if(chat1.messages[i]._id === msgId){
+ 				// 				chat1.message.splice(i,1);
+ 				// 			}
+ 				// 		}
+ 				// 	}
+ 				// })
+ 				// Chat.update({_User: req.body.userId, contactId: req.body.contactId},{$pull: {messages: {_id: req.body.messageId}}}).exec(function (err, chat){
+ 				// 	if(err){
+ 				// 		console.log("error");
+ 				// 	}else{
+ 				// 		console.log("Done");
+ 				// 	}
+ 				// })
+ 				// Chat.findOne({_User: req.body.userId, contactId: req.body.contactId}).deepPopulate('messages').exec(function (err, chat){
+ 				// 	if(err){
+ 				// 		console.log("Couldnt find User Chat")
+ 				// 	}else{
+ 				// 		console.log(chat.messages)
+ 				// 		for(var i=0;i<chat.messages.length;i++){
+ 				// 			if(chat.messages[i]._id === req.body.messageId){
+ 				// 				chat.message.splice(i,1);
+ 				// 				chat.save(function (err){
+ 				// 					if(err){
+ 				// 						console.log("Error saving chat")
+ 				// 					}else{
+ 				// 						console.log("Message spliced from user chat")
+ 				// 					}
+ 				// 				})
+ 				// 			}
+ 				// 		}
+ 				// 	}
+ 				// })
  			}
  	 	}
 })();

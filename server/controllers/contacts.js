@@ -30,7 +30,7 @@ module.exports = (function() {
  							if(err){
  								console.log("Something Went Wrong");
  							}else{
- 								User.findOne({_id:req.body.userId}).populate('requests').exec(function (err, user){
+ 								User.findOne({_id:req.body.userId}).deepPopulate(['contacts', 'requests']).exec(function (err, user){
  								User.findOne({_id: req.body.reqFromId}).populate('requests').exec( function (err, user1){
  									for(var i=0;i<user.requests.length;i++){
  										if(user.requests[i].req_from_id === req.body.reqFromId){
@@ -73,7 +73,7 @@ module.exports = (function() {
  				})
  			},
  			userFind: function (req, res){
- 				User.findOne({email: req.body.email}).deepPopulate('contacts').exec(function (err, user){
+ 				User.findOne({email: req.body.email}).deepPopulate(['contacts', 'requests']).exec(function (err, user){
  					if(err){
  						console.log("Something went wrong");
  					}else{
