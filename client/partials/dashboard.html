@@ -1,4 +1,4 @@
-<div ng-controller="userController">
+<div ng-controller="userController" ng-show="users">
 <div class="pull-right" ng-controller="loginController">
             <form>
       	 	<input type='submit' value='Logout' ng-click='logout()' class="btn btn-danger">
@@ -77,6 +77,7 @@
 	</div>
 	<h4 ng-show="reqMessage">{{reqMessage}}</h4>
 </div>
-<!-- <div ng-show="!users">
-      <a href="#" class="btn btn-info">Login To Continue</a>
-</div> -->
+<div ng-show="!users">
+    <h4 ng-show="invalid">{{invalid}}</h4> 
+    <a href="#" class="btn btn-info">Login To Continue</a>
+</div>

@@ -16,11 +16,19 @@ myapp.controller('loginController', function($scope, $rootScope, loginFactory, r
                 password: $scope.user.password
             }
             loginFactory.getUser(user_repack, function (data){
-                $rootScope.users = data
-                $scope.userData = $cookies.userData || {};
-                $cookies.userData = data
-                console.log($cookies.userData);
-                $scope.userCookie = $cookies.userData;
+                var type = typeof data;
+                if(type === "object"){
+                    $rootScope.users = data
+                    $scope.userData = $cookies.userData || {};
+                    $cookies.userData = data
+                    // console.log($cookies.userData);
+                    $scope.userCookie = $cookies.userData;
+                }else if(type !== "object"){
+                    delete $rootScope.users
+                    $rootScope.invalid = "Invalid Credentials, Please try again."
+                    $location.path('/dashboard')
+                    return;
+                }
                 // var userCookie = $cookies.get('userCookie')
                 // $cookies.put('userCookie', data);
             requestFactory.getRecievedRequests(data, function (data){
