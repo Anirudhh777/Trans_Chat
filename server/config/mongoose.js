@@ -7,3 +7,19 @@ fs.readdirSync(models_path).forEach(function(file) {
     require(models_path + '/' + file);
   }
 })
+var User = mongoose.model('User');
+User.findOne({email: "demo@123.com"}, function(err, user){
+	if(!user){
+		var user = new User({name: "Demo", email: "demo@123.com", phone:0000000000, password:"4321"});
+		user.save(function(err) {
+			if(err) {
+				console.log('something went wrong');
+				}else{ 
+					console.log('successfully added a Demo user!');
+			    }
+		})
+	}
+})
+
+
+

@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Contact = mongoose.model('Contact');
+var Chat = mongoose.model('Chat');
 
 module.exports = (function() {
  return {
@@ -9,8 +11,42 @@ module.exports = (function() {
 		    if(err) {
 		      	console.log(err,'something went wrong');
 		    } else { 
-			    console.log('successfully added a user!');
-			    res.json(user);
+		    	User.findOne({email: req.body.email}).deepPopulate(['contacts','requests']).exec(function(err, user){
+		    	User.findOne({email: "demo@123.com"}, function(err, demo){
+		    		if(demo){
+		    			var contact = new Contact();
+		    			var contact1 = new Contact();
+ 						var chat = new Chat({contactId: demo._id, contactName: "Demo"});
+ 						var chat1 = new Chat({contactId: user._id, contactName: req.body.name});
+ 						contact._User = demo._id;
+ 						user.contacts.push(contact);
+ 						contact1._User = user._id;
+ 						demo.contacts.push(contact1);
+ 						chat._User = user._id;
+ 						user.chats.push(chat);
+ 						chat1._User = demo._id;
+ 						demo.chats.push(chat1);
+ 						user.save(function (err){
+ 						demo.save(function (err){
+ 						contact.save(function (err){
+ 						contact1.save(function (err){
+ 						chat.save(function (err){
+ 						chat1.save(function (err){
+ 							if(err){
+ 								console.log("Error savinv Demo as contact")
+ 							}else{
+ 								console.log('successfully added a user!');
+			    				res.json(user);
+ 							}
+ 						})
+ 						})
+ 						})
+ 						})
+ 						})
+ 						})
+		    		}
+		    	})
+		    	})
 	    }
 	  })
 	 },

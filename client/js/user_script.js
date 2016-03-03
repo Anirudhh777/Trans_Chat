@@ -13,7 +13,7 @@ myapp.factory('userFactory', function($http, $location) {
           return factory;
     });
 
-myapp.controller('userController', function($scope, userFactory, $location, $rootScope) {
+myapp.controller('userController', function($scope, userFactory, $location, $rootScope, contactFactory) {
         $scope.addUser = function() {
             delete $rootScope.reqMessage;    
             var user_repack ={
@@ -26,6 +26,9 @@ myapp.controller('userController', function($scope, userFactory, $location, $roo
             userFactory.addUser(user_repack, function (data) {
                     $rootScope.users = data;
                     $rootScope.welcome = "Thank you Registering"
+                contactFactory.getContacts(data, function (data){
+                    $rootScope.userContacts = data;
+                })
                     $location.path('/dashboard')
             });
         }
