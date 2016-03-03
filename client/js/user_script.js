@@ -24,12 +24,19 @@ myapp.controller('userController', function($scope, userFactory, $location, $roo
                 created_at: new Date()
             }
             userFactory.addUser(user_repack, function (data) {
-                    $rootScope.users = data;
-                    $rootScope.welcome = "Thank you Registering"
-                contactFactory.getContacts(data, function (data){
-                    $rootScope.userContacts = data;
-                })
-                    $location.path('/dashboard')
+                    var dataType = typeof data;
+                    console.log(dataType);
+                    if(dataType === "object"){
+                        $rootScope.users = data;
+                        $rootScope.welcome = "Thank you Registering"
+                        contactFactory.getContacts(data, function (data){
+                            $rootScope.userContacts = data;
+                        })
+                        $location.path('/dashboard')
+                    }if(dataType === "string"){
+                        $rootScope.invalid = data;
+                        $location.path('/dashboard')
+                    }
             });
         }
         $scope.findUser = function(user) {
@@ -61,6 +68,7 @@ myapp.controller('userController', function($scope, userFactory, $location, $roo
                 }
                 if(reqMessage === false){
                     $rootScope.findusers = data
+                    console.log($rootScope.findusers);
                 }
             })
             $scope.find_user = {}

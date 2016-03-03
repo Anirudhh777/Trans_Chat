@@ -5,8 +5,8 @@ bcrypt = require('bcryptjs'),
     SALT_WORK_FACTOR = 10;
 
 var UserSchema = new mongoose.Schema({
-  name: { type: String, required: true, index: { unique: true } },
-  email: String,
+  name: String,
+  email: { type: String, required: true, index: { unique: true } },
   phone: Number,
   password:  { type: String, required: true },
   created_at: Date,

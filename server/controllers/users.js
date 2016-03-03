@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Contact = mongoose.model('Contact');
 var Chat = mongoose.model('Chat');
+var Message = mongoose.model('Message');
 
 module.exports = (function() {
  return {
@@ -10,14 +11,17 @@ module.exports = (function() {
 		  user.save(function(err) {
 		    if(err) {
 		      	console.log(err,'something went wrong');
+		      	var error = "Email ID already Exists";
+		      	res.json(error);
 		    } else { 
-		    	User.findOne({email: req.body.email}).deepPopulate(['contacts','requests']).exec(function(err, user){
-		    	User.findOne({email: "demo@123.com"}, function(err, demo){
+		    	User.findOne({email: req.body.email}).deepPopulate(['contacts','requests', 'messages']).exec(function (err, user){
+		    	User.findOne({email: "demo@123.com"}, function (err, demo){
 		    		if(demo){
 		    			var contact = new Contact();
 		    			var contact1 = new Contact();
  						var chat = new Chat({contactId: demo._id, contactName: "Demo"});
  						var chat1 = new Chat({contactId: user._id, contactName: req.body.name});
+ 						var message = new Message({oMessage:"Welcome to Lets Talk!, you can use this app to chat with ur friends in a lot of different languages. Do not Message me, i wont respond, Im busy. Have fun using the app!. GoodBye", tMessage: "Welcome to Lets Talk!, you can use this app to chat with ur friends in a lot of different languages. Do not Message me, i wont respond, im busy. Have fun using the app!. GoodBye", sentById: demo._id, sentByName:"Demo", recvdById: user._id, recvdByName: user.name, created_at: req.body.created_at});
  						contact._User = demo._id;
  						user.contacts.push(contact);
  						contact1._User = user._id;
@@ -32,12 +36,26 @@ module.exports = (function() {
  						contact1.save(function (err){
  						chat.save(function (err){
  						chat1.save(function (err){
+ 						message.save(function (err){
  							if(err){
- 								console.log("Error savinv Demo as contact")
+ 								console.log("Error saving Demo as contact")
  							}else{
  								console.log('successfully added a user!');
-			    				res.json(user);
+ 								Chat.findOne({_User: user._id}).deepPopulate('messages').exec(function (err, chat3){
+			 						if(chat3){
+			 							message._Chat = chat3._id;
+			 							chat3.messages.push(message);
+			 							chat3.save(function (err){
+			 								if(err){
+			 									console.log("Error saving message in user chat");
+			 								}else{
+			 									res.json(user);
+			 								}
+			 							})
+			 						}
+			 					})
  							}
+ 						})
  						})
  						})
  						})
