@@ -69,7 +69,7 @@ module.exports = (function() {
 	  })
 	 },
 	 	login: function(req, res) {
-		     User.findOne({email: req.body.email}).deepPopulate(['contacts', 'requests']).exec(function (err, user) {
+		     User.findOne({email: req.body.email}).deepPopulate(['contacts', 'requests', 'chats']).exec(function (err, user) {
 		       if(user === null) {
 		          var error = "User not found"
 		          console.log(error);

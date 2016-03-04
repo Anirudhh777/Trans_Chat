@@ -1,6 +1,7 @@
 body{
         padding-top:60px;
         min-height:100%
+        padding-right: 0px !important
     }
 
 .created_at{
@@ -39,4 +40,8 @@ body{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+}
+
+.modal-open {
+  overflow-y: auto;
 }

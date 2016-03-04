@@ -28,6 +28,7 @@ myapp.factory('messageFactory', function($http, $location) {
 
 myapp.controller('messageController', function($scope, messageFactory, $location, $rootScope) {
         $scope.sendMessage = function(userId, userName, contactId, contactName){
+            var oMessage = $scope.message.msg;
             messageFactory.translateMessage($scope.message.msg,$scope.message.language1, function (data){
             $rootScope.transMsg = data;
             message_repack = {
@@ -36,9 +37,10 @@ myapp.controller('messageController', function($scope, messageFactory, $location
                 contactId: contactId,
                 contactName: contactName,
                 tMessage: data.text[0],
-                oMessage: $scope.message.msg,
+                oMessage: oMessage,
                 created_at: new Date()
             }
+            console.log(message_repack);
             messageFactory.saveMessage(message_repack, function (data){
                 $rootScope.messages = data;
             messageFactory.loadChat(message_repack, function (data){

@@ -10,6 +10,7 @@ module.exports = (function() {
  				Chat.findOne({_User: req.body.contactId, contactId: req.body.userId}).populate('messages').exec(function (err, chat1){
  				var message = new Message({oMessage: req.body.oMessage, tMessage: req.body.tMessage, sentByName: "You", sentById: req.body.userId, recvdById: req.body.contactId, recvdByName: req.body.contactName, created_at: req.body.created_at});
  				var message1 = new Message({oMessage: req.body.oMessage, tMessage: req.body.tMessage, sentByName: req.body.userName, sentById: req.body.userId, recvdById: req.body.contactId, recvdByName: req.body.contactName, created_at: req.body.created_at});
+ 				chat1.msgCount = chat1.msgCount + 1;
  				message._Chat = chat._id;
  				chat.messages.push(message);
  				message1._Chat = chat1._id;
@@ -56,44 +57,6 @@ module.exports = (function() {
  					console.log("User Message Removed")
  					}
  				})
- 				// Chat.findOne({_User: req.body.contactId, contactId: req.body.userId}).deepPopulate('messages').exec(function (err, chat1){
- 				// 	if(err){
- 				// 		console.log("Couldnt find contact chat");
- 				// 	}else{
- 				// 		console.log(chat1.messages);
- 				// 		for(var i=0;i<chat1.messages.length;i++){
- 				// 			if(chat1.messages[i]._id === msgId){
- 				// 				chat1.message.splice(i,1);
- 				// 			}
- 				// 		}
- 				// 	}
- 				// })
- 				// Chat.update({_User: req.body.userId, contactId: req.body.contactId},{$pull: {messages: {_id: req.body.messageId}}}).exec(function (err, chat){
- 				// 	if(err){
- 				// 		console.log("error");
- 				// 	}else{
- 				// 		console.log("Done");
- 				// 	}
- 				// })
- 				// Chat.findOne({_User: req.body.userId, contactId: req.body.contactId}).deepPopulate('messages').exec(function (err, chat){
- 				// 	if(err){
- 				// 		console.log("Couldnt find User Chat")
- 				// 	}else{
- 				// 		console.log(chat.messages)
- 				// 		for(var i=0;i<chat.messages.length;i++){
- 				// 			if(chat.messages[i]._id === req.body.messageId){
- 				// 				chat.message.splice(i,1);
- 				// 				chat.save(function (err){
- 				// 					if(err){
- 				// 						console.log("Error saving chat")
- 				// 					}else{
- 				// 						console.log("Message spliced from user chat")
- 				// 					}
- 				// 				})
- 				// 			}
- 				// 		}
- 				// 	}
- 				// })
  			}
  	 	}
 })();
