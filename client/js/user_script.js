@@ -67,8 +67,12 @@ myapp.controller('userController', function($scope, userFactory, $location, $roo
                     }
                 }
                 if(reqMessage === false){
+                    if(data._id === $rootScope.users._id){
+                        $rootScope.existingContact = "That is ur own email ID";
+                    }else{
                     $rootScope.findusers = data
                     console.log($rootScope.findusers);
+                    }
                 }
             })
             $scope.find_user = {}
