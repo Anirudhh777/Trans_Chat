@@ -55,6 +55,7 @@ module.exports = (function() {
  						console.log("Error removing user message");
  					}else{
  					console.log("User Message Removed")
+ 					res.json(message);
  					}
  				})
  			}
