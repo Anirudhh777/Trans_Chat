@@ -79,7 +79,11 @@
 		</div>
 		<input type="submit" value="Send" ng-click='sendMessage(users._id,users.name,chat.contactId,chat.contactName)' class="btn btn-info">
 	</form>
+	<div class="pull-down" id="yandex">
+		<a href="http://translate.yandex.com/">Powered by Yandex.Translate</a>
+	</div>
+	
 </div>
 <div ng-show="!users">
-      <a href="#" class="btn btn-info">Login To Continue</a>
+      <a href="#" class="btn btn-info yandex">Login To Continue</a>
 </div>
